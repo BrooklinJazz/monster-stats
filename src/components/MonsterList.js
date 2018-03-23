@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text } from 'react-native';
+import { connect } from "react-redux";
+import * as actions from "../actions/index";
 
 class MonsterList extends Component {
-    state = { monsters: []}
+    // state = { monsters: [] }
 
     componentWillMount() {
-        axios.get('http://dnd5eapi.co/api/monsters/')
-        .then(response => this.setState({monsters: response.data.results}))
+        this.props.getMonsters('test data from monster list')
     }
 
-    render() { 
-        return ( <Text></Text> )
+    render() {
+        return (<Text>Dummy Text</Text>)
     }
 }
- 
-export default MonsterList;
+
+function mapStateToProps(state) {
+    const {monsters} = state.monsters;
+    return {
+      monsters
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    // Whenever selectCombatant is called, the result should be passed to all
+    // of our reducers
+    return {
+      getMonsters: payload =>
+      dispatch(actions.getMonsters(payload)),
+    };
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(MonsterList);
