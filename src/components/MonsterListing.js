@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, Modal } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
+import MonsterStatsModal from './MonsterStatsModal';
+import { connect } from "react-redux";
+import axios from 'axios';
+import * as actions from "../actions/index";
 
 class MonsterListing extends Component {
     state = {
@@ -7,7 +11,13 @@ class MonsterListing extends Component {
     }
 
     setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+        this.setState({ modalVisible: visible })
+    }
+
+    getMonsterStats(url) {
+        axios.get(`${url}`)
+            .then(response => this.props.setActiveMonsterModal(response.data))
+
     }
 
     render() {
@@ -15,32 +25,14 @@ class MonsterListing extends Component {
         return (
             <View>
 
-                <Modal
-                    animationType="slide"
-                    transparent={false}
+                <MonsterStatsModal
                     visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        alert('Modal has been closed.');
-                    }}>
-                    <View 
-                    // style={{ marginTop: 22 }}
-                    >
-                        <View>
-                            <Text>Hello World!</Text>
-
-                            <TouchableHighlight
-                                onPress={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
-                                }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </Modal>
+                    onPress={() => { this.setModalVisible(!this.state.modalVisible) }}
+                />
 
                 <TouchableHighlight
                     onPress={() => {
-                        this.setModalVisible(true);
+                        this.getMonsterStats(url)
                     }}>
                     <Text>{name}</Text>
                 </TouchableHighlight>
@@ -49,4 +41,20 @@ class MonsterListing extends Component {
     }
 }
 
-export default MonsterListing;
+function mapStateToProps(state) {
+    const monsters = state.monsters.monsters
+    return {
+        monsters
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    // Whenever selectCombatant is called, the result should be passed to all
+    // of our reducers
+    return {
+        setActiveMonsterModal: payload =>
+            dispatch(actions.setActiveMonsterModal(payload)),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MonsterListing);
