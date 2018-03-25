@@ -5,6 +5,7 @@ import { createStore } from 'redux';
 import reducers from './src/reducers';
 
 import MonsterList from './src/components/MonsterList';
+import MonsterStatsModal from './src/components/MonsterStatsModal';
 
 
 export default class App extends React.Component {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
       <Provider store={createStore(reducers)} >
         <View style={styles.container}>
           <MonsterList />
+          <MonsterStatsModal/>
         </View>
       </Provider>
     );

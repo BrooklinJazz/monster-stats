@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Modal, Text, View, TouchableHighlight } from 'react-native';
+import { connect } from "react-redux";
 
-const MonsterStatsModal = ({ visible, onPress }) => {
-    return (
-        <Modal
+class MonsterStatsModal extends Component {
+    componentDidMount() {
+        console.log('Final Check?', this.props)
+    }
+
+    render() {
+        const { monsterStatsModalVisible: visible, activeMonsterModal: stat } = this.props
+        return (
+            <Modal
             animationType="slide"
             transparent={false}
             visible={visible}
@@ -17,14 +24,23 @@ const MonsterStatsModal = ({ visible, onPress }) => {
                     <Text>Hello World!</Text>
 
                     <TouchableHighlight
-                        onPress={onPress}
+                        // onPress={() => console.log('connect this function to close modal and set visible to false')}
                     >
-                        <Text>Hide Modal</Text>
+                        <Text>Hide Modal{stat.name}</Text>
                     </TouchableHighlight>
                 </View>
             </View>
         </Modal>
-    )
+         )
+    }
 }
 
-export default MonsterStatsModal;
+function mapStateToProps(state) {
+    const { activeMonsterModal, monsterStatsModalVisible } = state.monsters
+    return {
+        activeMonsterModal,
+        monsterStatsModalVisible
+    };
+}
+
+export default connect(mapStateToProps)(MonsterStatsModal);

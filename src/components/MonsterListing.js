@@ -14,25 +14,18 @@ class MonsterListing extends Component {
         this.setState({ modalVisible: visible })
     }
 
-    getMonsterStats(url) {
-        axios.get(`${url}`)
+    getMonsterStatsForMonsterModal(url) {
+        axios.get(url)
             .then(response => this.props.setActiveMonsterModal(response.data))
-
     }
 
     render() {
         const { name, url } = this.props.monster
         return (
             <View>
-
-                <MonsterStatsModal
-                    visible={this.state.modalVisible}
-                    onPress={() => { this.setModalVisible(!this.state.modalVisible) }}
-                />
-
                 <TouchableHighlight
                     onPress={() => {
-                        this.getMonsterStats(url)
+                        this.getMonsterStatsForMonsterModal(url)
                     }}>
                     <Text>{name}</Text>
                 </TouchableHighlight>
@@ -42,9 +35,9 @@ class MonsterListing extends Component {
 }
 
 function mapStateToProps(state) {
-    const monsters = state.monsters.monsters
+    const { activeMonsterModal } = state.monsters
     return {
-        monsters
+        activeMonsterModal
     };
 }
 
