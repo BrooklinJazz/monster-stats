@@ -8,7 +8,9 @@ import * as actions from "../actions/index";
 class MonsterListing extends Component {
 
     getMonsterStatsForMonsterModal(url) {
+        // Show the Modal before the content has loaded in
         this.props.setMonsterModalVisibility(true)
+        // get the content for MonsterStatModal
         axios.get(url)
         .then(response => this.props.setActiveMonsterModal(response.data))
     }
