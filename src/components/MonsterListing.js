@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import * as actions from "../actions/index";
 
+// TODO This file should be able to be converted to a functional component by
+// passing getMonsterStatsForMonsterModal() as a prop from MonsterList.
+
 class MonsterListing extends Component {
 
     getMonsterStatsForMonsterModal(url) {
