@@ -17,7 +17,11 @@ export default function (state = INITIAL_STATE, action) {
             return {
                 ...state,
                 activeMonsterModal: action.payload,
-                monsterStatsModalVisible: true
+            }
+        case Types.SET_MONSTER_MODAL_VISIBILITY:
+            return {
+                ...state,
+                monsterStatsModalVisible: action.payload
             }
     }
     return state

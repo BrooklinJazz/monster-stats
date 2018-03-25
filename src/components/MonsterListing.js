@@ -6,17 +6,11 @@ import axios from 'axios';
 import * as actions from "../actions/index";
 
 class MonsterListing extends Component {
-    state = {
-        modalVisible: false,
-    }
-
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible })
-    }
 
     getMonsterStatsForMonsterModal(url) {
+        this.props.setMonsterModalVisibility(true)
         axios.get(url)
-            .then(response => this.props.setActiveMonsterModal(response.data))
+        .then(response => this.props.setActiveMonsterModal(response.data))
     }
 
     render() {
@@ -35,9 +29,9 @@ class MonsterListing extends Component {
 }
 
 function mapStateToProps(state) {
-    const { activeMonsterModal } = state.monsters
+    // const { activeMonsterModal } = state.monsters
     return {
-        activeMonsterModal
+        // activeMonsterModal
     };
 }
 
@@ -47,6 +41,8 @@ function mapDispatchToProps(dispatch) {
     return {
         setActiveMonsterModal: payload =>
             dispatch(actions.setActiveMonsterModal(payload)),
+        setMonsterModalVisibility: payload =>
+            dispatch(actions.setMonsterModalVisibility(payload)),
     };
 }
 
