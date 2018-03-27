@@ -3,6 +3,9 @@ import { Text, View, ScrollView } from 'react-native';
 import { isUndefined } from '../helpers';
 import TaperedRule from './TaperedRule';
 
+// styling
+import Color, {primary} from '../constants'
+
 const MonsterStats = ({ stat }) => {
     const {
         // Basic Info
@@ -76,7 +79,9 @@ const MonsterStats = ({ stat }) => {
         headingStyles,
         subHeadingStyles,
         heading2,
-        horizontalRule
+        horizontalRule,
+        abilityContainerStyles,
+        abilityTextStyles,
     } = styles
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -100,9 +105,13 @@ const MonsterStats = ({ stat }) => {
 
             {/* TODO Add Ability Stylings*/}
             {
-                abilities.map(ability => (
-                    <Text key={ability.string}>{ability.string} {ability.score} </Text>
-                ))
+                <View style={abilityContainerStyles} >
+                {
+                    abilities.map(ability => (
+                        <Text style={abilityTextStyles} key={ability.string}>{ability.string}{"\n"} {ability.score} </Text>
+                    ))
+                }
+                </View>
             }
 
             <TaperedRule />
@@ -203,7 +212,7 @@ const MonsterStats = ({ stat }) => {
     )
 }
 
-const primary = "#922610"
+
 const bodyTextSize = 12
 const styles = {
     contentContainer: {
@@ -240,6 +249,14 @@ const styles = {
         width: '100%',
         height: 1,
         backgroundColor: primary,
+    },
+    abilityContainerStyles: {
+        flexDirection: 'row',
+        justifyContent: "space-around",
+    },
+    abilityTextStyles: {
+        color: primary,
+        fontWeight: 'bold',
     }
 }
 
