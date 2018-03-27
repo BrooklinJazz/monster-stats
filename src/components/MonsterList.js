@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
 import * as actions from "../actions/index";
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, TextInput } from 'react-native';
 import MonsterListing from './MonsterListing'
 
 class MonsterList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            search: "",
+            displayedMonsters: []
+         }
+    }
 
     componentWillMount() {
-        if (!this.props.monsters.length) {
+        if (this.props.monsters.length >= 0) {
             axios.get('http://dnd5eapi.co/api/monsters/')
                 .then(response => this.props.getMonsters(response.data.results))
         }
@@ -22,22 +29,38 @@ class MonsterList extends Component {
             .then(response => this.props.setActiveMonsterModal(response.data))
     }
 
-    renderMonsterListings() {
-        const { monsters = [] } = this.props
-        return monsters.map(monster => {
-            return <MonsterListing key={monster.name} monster={monster} />
-        })
+    _handleInputChange(search) {
+        this.refs._FlatList.scrollToOffset({x: 0, y: 0, animated: true})
+        this.setState({search})
+        const displayedMonsters = this.props.monsters.filter( monster => (
+            monster.name.includes(search)
+        ))
+        this.setState({displayedMonsters: displayedMonsters})
     }
 
     render() {
         const { monsters = [] } = this.props
+        const { displayedMonsters } = this.state
         return (
             <View>
+                <TextInput
+                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    onChangeText={(search) => this._handleInputChange(search)}
+                    value={this.state.search}
+                />
                 {
                     monsters.length >= 1 ?
                         <FlatList
-                            data={monsters}
-                            renderItem={({ item }) => <MonsterListing onPress={() => this.getMonsterStatsForMonsterModal(item.url)} key={item.name} monster={item} />}
+                            ref='_FlatList'
+                            data={
+                                displayedMonsters.length === 0 ? monsters : displayedMonsters
+                            }
+                            renderItem={({ item }) =>
+                                <MonsterListing
+                                    onPress={() => this.getMonsterStatsForMonsterModal(item.url)}
+                                    key={item.name}
+                                    monster={item} />
+                            }
                             keyExtractor={(item, index) => index}
                         />
                         :

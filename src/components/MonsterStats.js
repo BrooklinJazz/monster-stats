@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { isUndefined } from '../helpers'
 
 const MonsterStats = ({ stat }) => {
@@ -68,7 +68,7 @@ const MonsterStats = ({ stat }) => {
     ]
 
     return (
-        <View>
+        <ScrollView>
             <Text>{name}</Text>
             <Text>{size} {type} {alignment}</Text>
             {/*Basic Info*/}
@@ -136,7 +136,7 @@ const MonsterStats = ({ stat }) => {
                     <Text key={action.name}>{action.name}. {action.desc}</Text>
                 ))
             }
-        </View>
+        </ScrollView>
     )
 }
 
