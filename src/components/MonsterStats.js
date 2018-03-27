@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { isUndefined } from '../helpers'
 
 const MonsterStats = ({ stat }) => {
     const {
+        // Basic Info
         name,
         size,
         type,
@@ -11,95 +13,88 @@ const MonsterStats = ({ stat }) => {
         hit_points,
         hit_dice,
         speed,
-        strength: str,
-        dexterity: dex,
-        constitution: con,
-        intelligence: int,
-        wisdom: wis,
-        charisma: cha,
-        // START NOTE "CONDITIONAL RENDERING" the following have to be conditionally rendered
-        athletics,
-        acrobatics,
-        sleight_of_hand,
-        stealth,
-        arcana,
-        history,
-        investigation,
-        nature,
-        religion,
-        animal_handling,
-        insight,
-        medicine,
-        perception,
-        survivial,
-        deception,
-        intimidation,
-        performance,
-        persuasion,
-        // NOTE may be important when testing their presence for conditional rendering, 
-        // while the above values defaulted to undefined, the below values default to empty strings or arrays
-        damage_vulnerabilities,
-        damage_resistances,
-        damage_immunities,
-        condition_immunities,
-        // END NOTE "CONDITIONAL RENDERING"
-        senses,
-        languages,
-        challenge_rating,
-        // START NOTE "ARRAYS" the following are expected to be of type Array
-        //
+        // Arrays of Objects
         special_abilities,
         actions,
-        // legendary actions has to be conditionally rendered
         legendary_actions
-        // END NOTE "ARRAYS"
-
     } = stat
-    const skills = [
-        { mod: athletics, string: 'Athletics' },
-        { mod: acrobatics, string: 'Acrobatics' },
-        { mod: sleight_of_hand, string: 'Sleight Of Hand' },
-        { mod: stealth, string: 'Stealth' },
-        { mod: arcana, string: 'Arcana' },
-        { mod: history, string: 'History' },
-        { mod: investigation, string: 'Investigation' },
-        { mod: nature, string: 'Nature' },
-        { mod: religion, string: 'Religion' },
-        { mod: animal_handling, string: 'Animal Handling' },
-        { mod: insight, string: 'Insight' },
-        { mod: medicine, string: 'Medicine' },
-        { mod: perception, string: 'Perception' },
-        { mod: survivial, string: 'Survival' },
-        { mod: deception, string: 'Deception' },
-        { mod: intimidation, string: 'Intimidation' },
-        { mod: performance, string: 'Performance' },
-        { mod: persuasion, string: 'Persuasion' },
+    const abilities = [
+        { score: stat.strength, string: 'STR' },
+        { score: stat.dexterity, string: 'DEX' },
+        { score: stat.constitution, string: 'CON' },
+        { score: stat.intelligence, string: 'INT' },
+        { score: stat.wisdom, string: 'WIS' },
+        { score: stat.charisma, string: 'CHA' }
     ]
+    const properties = [
+        // check if property is empty string
+        { property: stat.damage_vulnerabilities, string: 'Damage Vulnerabilites' },
+        { property: stat.damage_resistances, string: 'Damage Resistances' },
+        { property: stat.damage_immunities, string: 'Damage Immunities' },
+        { property: stat.condition_immunities, string: 'Condition Immunities' },
+        { property: stat.senses, string: 'Senses' },
+        { property: stat.languages, string: 'Languages' },
+        { property: stat.challenge_rating, string: 'Challenge Rating' },
+    ]
+    const saves = [
+        // check if mod is undefined
+        { mod: stat.strength_save, string: 'STR' },
+        { mod: stat.dexterity_save, string: 'DEX' },
+        { mod: stat.constitution_save, string: 'CON' },
+        { mod: stat.intelligence_save, string: 'INT' },
+        { mod: stat.wisdom_save, string: 'WIS' },
+        { mod: stat.charisma_save, string: 'CHA' }
+    ]
+    const skills = [
+        // check if mod is undefined
+        { mod: stat.athletics, string: 'Athletics' },
+        { mod: stat.acrobatics, string: 'Acrobatics' },
+        { mod: stat.sleight_of_hand, string: 'Sleight Of Hand' },
+        { mod: stat.stealth, string: 'Stealth' },
+        { mod: stat.arcana, string: 'Arcana' },
+        { mod: stat.history, string: 'History' },
+        { mod: stat.investigation, string: 'Investigation' },
+        { mod: stat.nature, string: 'Nature' },
+        { mod: stat.religion, string: 'Religion' },
+        { mod: stat.animal_handling, string: 'Animal Handling' },
+        { mod: stat.insight, string: 'Insight' },
+        { mod: stat.medicine, string: 'Medicine' },
+        { mod: stat.perception, string: 'Perception' },
+        { mod: stat.survivial, string: 'Survival' },
+        { mod: stat.deception, string: 'Deception' },
+        { mod: stat.intimidation, string: 'Intimidation' },
+        { mod: stat.performance, string: 'Performance' },
+        { mod: stat.persuasion, string: 'Persuasion' },
+    ]
+
     return (
         <View>
             <Text>{name}</Text>
             <Text>{size} {type} {alignment}</Text>
-            {/*SVG LINE*/}
-            <Text>{armor_class}</Text>
-            <Text>{hit_points} {hit_dice}</Text>
-            <Text>{speed}</Text>
-            {/* TODO Add Stat Stylings*/}
-            <Text>{str}</Text>
-            <Text>{dex}</Text>
-            <Text>{con}</Text>
-            <Text>{int}</Text>
-            <Text>{wis}</Text>
-            <Text>{cha}</Text>
-            {/*Skills*/}
-            <Text>
-                {
-                    skills.map(skill => (
-                        typeof skill.mod !== 'undefined' && <Text key={skill.string}>{skill.string} +{skill.mod} </Text>
-                    ))
-                }
-            </Text>
+            {/*Basic Info*/}
+            <Text>Armor Class {armor_class}</Text>
+            <Text>Hit Points {hit_points} {hit_dice}</Text>
+            <Text>Speed {speed}</Text>
+            {/* TODO Add Ability Stylings*/}
+            {
+                abilities.map(ability => (
+                    <Text key={ability.string}>{ability.string} {ability.score} </Text>
+                ))
+            }
+            {
+                // test that monster has skills
+                !skills.every((skill) => { isUndefined(skill.mod) }) &&
+                    {
+                        skills.map(skill => (
+                            typeof skill.mod !== 'undefined' && <Text key={skill.string}>{skill.string} +{skill.mod} </Text>
+                        ))
+                    }
+            }
+            <Text><Text>a</Text></Text>
+            <Text><Text>a</Text></Text>
         </View>
     )
 }
+
 
 export default MonsterStats;
