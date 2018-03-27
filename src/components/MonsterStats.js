@@ -67,14 +67,25 @@ const MonsterStats = ({ stat }) => {
         { mod: stat.persuasion, string: 'Persuasion' },
     ]
 
+    const {
+        redAttributeTitleStyles,
+        redAttributeTextStyles,
+        blackAttributeTitleStyles
+    } = styles
     return (
         <ScrollView>
             <Text>{name}</Text>
             <Text>{size} {type} {alignment}</Text>
             {/*Basic Info*/}
-            <Text>Armor Class {armor_class}</Text>
-            <Text>Hit Points {hit_points} {hit_dice}</Text>
-            <Text>Speed {speed}</Text>
+            <Text style={redAttributeTextStyles} >
+                <Text style={redAttributeTitleStyles} >Armor Class</Text> {armor_class}
+            </Text>
+            <Text style={redAttributeTextStyles} >
+                <Text style={redAttributeTitleStyles} >Hit Points</Text> {hit_points} {hit_dice}
+            </Text>
+            <Text style={redAttributeTextStyles} >
+                <Text style={redAttributeTitleStyles} >Speed</Text> {speed}
+            </Text>
 
             {/* TODO Add Ability Stylings*/}
             {
@@ -89,7 +100,10 @@ const MonsterStats = ({ stat }) => {
                 <View>
                     {
                         saves.map(save => (
-                            typeof save.mod !== 'undefined' && <Text key={save.string}>{save.string} +{save.mod} </Text>
+                            typeof save.mod !== 'undefined' &&
+                            <Text key={save.string} style={redAttributeTextStyles} >
+                                <Text style={redAttributeTitleStyles} >{save.string}</Text> +{save.mod}
+                            </Text>
                         ))
                     }
                 </View>
@@ -101,7 +115,10 @@ const MonsterStats = ({ stat }) => {
                 <View>
                     {
                         skills.map(skill => (
-                            typeof skill.mod !== 'undefined' && <Text key={skill.string}>{skill.string} +{skill.mod} </Text>
+                            typeof skill.mod !== 'undefined' &&
+                            <Text key={skill.string} style={redAttributeTextStyles} >
+                                <Text style={redAttributeTitleStyles} >{skill.string}</Text> +{skill.mod}
+                            </Text>
                         ))
                     }
                 </View>
@@ -111,7 +128,10 @@ const MonsterStats = ({ stat }) => {
                 {
                     // there should always be a challenge rating property so no `.every()` test is needed
                     properties.map(property => (
-                        property.val !== "" && <Text key={property.string}>{property.string}: {property.val} </Text>
+                        property.val !== "" &&
+                        <Text key={property.string} style={redAttributeTextStyles}>
+                            <Text style={redAttributeTitleStyles} >{property.string}</Text> {property.val}
+                        </Text>
                     ))
                 }
             </View>
@@ -126,18 +146,37 @@ const MonsterStats = ({ stat }) => {
             {
                 actions !== "undefined" &&
                 actions.map(action => (
-                    <Text key={action.name}>{action.name}. {action.desc}</Text>
+                    <Text key={action.name}>
+                        <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
+                    </Text>
                 ))
             }
 
             {
                 typeof legendary_actions === 'object' &&
                 legendary_actions.map(action => (
-                    <Text key={action.name}>{action.name}. {action.desc}</Text>
+                    <Text key={action.name}><Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}</Text>
                 ))
             }
         </ScrollView>
     )
+}
+
+let primary = "#7A200D"
+const styles = {
+    redAttributeTitleStyles: {
+        fontWeight: 'bold',
+    },
+    redAttributeTextStyles: {
+        color: primary
+    },
+    blackAttributeTitleStyles: {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+    },
+    blackAttributeTextStyles: {
+
+    }
 }
 
 
