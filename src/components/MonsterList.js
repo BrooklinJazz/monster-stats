@@ -14,6 +14,14 @@ class MonsterList extends Component {
         }
     }
 
+    getMonsterStatsForMonsterModal(url) {
+        // Show the Modal before the content has loaded in
+        this.props.setMonsterModalVisibility(true)
+        // get the content for MonsterStatModal
+        axios.get(url)
+            .then(response => this.props.setActiveMonsterModal(response.data))
+    }
+
     renderMonsterListings() {
         const { monsters = [] } = this.props
         return monsters.map(monster => {
@@ -25,16 +33,16 @@ class MonsterList extends Component {
         const { monsters = [] } = this.props
         return (
             <View>
-            {
-                monsters.length >= 1 ?
-                    <FlatList
-                        data={monsters}
-                        renderItem={({item}) => <MonsterListing key={item.name} monster={item} />}
-                        keyExtractor={(item, index) => index}
-                    />
-                    :
-                    <Text>Loading</Text>
-            }
+                {
+                    monsters.length >= 1 ?
+                        <FlatList
+                            data={monsters}
+                            renderItem={({ item }) => <MonsterListing onPress={() => this.getMonsterStatsForMonsterModal(item.url)} key={item.name} monster={item} />}
+                            keyExtractor={(item, index) => index}
+                        />
+                        :
+                        <Text>Loading</Text>
+                }
             </View>
         )
     }
@@ -53,6 +61,10 @@ function mapDispatchToProps(dispatch) {
     return {
         getMonsters: payload =>
             dispatch(actions.getMonsters(payload)),
+        setActiveMonsterModal: payload =>
+            dispatch(actions.setActiveMonsterModal(payload)),
+        setMonsterModalVisibility: payload =>
+            dispatch(actions.setMonsterModalVisibility(payload)),
     };
 }
 
