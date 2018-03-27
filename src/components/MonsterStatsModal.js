@@ -14,7 +14,7 @@ class MonsterStatsModal extends Component {
                 transparent={false}
                 visible={visible}
                 onRequestClose={() => {
-                    alert('Modal has been closed.');
+                    
                 }}>
                     <View>
                         {
@@ -23,7 +23,9 @@ class MonsterStatsModal extends Component {
                                 <Text>Loading Monster Stats</Text>
                                 :
                                 // Render When stat object has values in it.
+                                <View>
                                 <MonsterStats stat={stat} />
+                                </View>
                                 // <TouchableHighlight
                                 //     onPress={() => this.props.setMonsterModalVisibility(false)}
                                 // >

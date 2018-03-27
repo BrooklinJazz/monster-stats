@@ -53,6 +53,7 @@ class MonsterList extends Component {
                         <FlatList
                             ref='_FlatList'
                             data={
+                                // handle case where the search is empty
                                 displayedMonsters.length === 0 ? monsters : displayedMonsters
                             }
                             renderItem={({ item }) =>

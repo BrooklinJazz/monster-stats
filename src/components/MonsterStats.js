@@ -117,21 +117,21 @@ const MonsterStats = ({ stat }) => {
             </View>
 
             {
-                special_abilities.length !== 0 &&
+                typeof special_abilities === 'object' &&
                 special_abilities.map(ability => (
                     <Text key={ability.name}>{ability.name}. {ability.desc}</Text>
                 ))
             }
 
             {
-                actions.length !== 0 &&
+                actions !== "undefined" &&
                 actions.map(action => (
                     <Text key={action.name}>{action.name}. {action.desc}</Text>
                 ))
             }
 
             {
-                legendary_actions.length !== 0 &&
+                typeof legendary_actions === 'object' &&
                 legendary_actions.map(action => (
                     <Text key={action.name}>{action.name}. {action.desc}</Text>
                 ))
