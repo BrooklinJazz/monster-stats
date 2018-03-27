@@ -1,6 +1,10 @@
 import React from 'react';
-import { Text, View, ScrollView } from 'react-native';
-import { isUndefined } from '../helpers'
+import { Text, View, ScrollView, Platform } from 'react-native';
+import { isUndefined } from '../helpers';
+import Rule from './Rule';
+
+// styling
+import { primary } from '../constants'
 
 const MonsterStats = ({ stat }) => {
     const {
@@ -67,78 +71,236 @@ const MonsterStats = ({ stat }) => {
         { mod: stat.persuasion, string: 'Persuasion' },
     ]
 
+    const {
+        redAttributeTitleStyles,
+        redAttributeTextStyles,
+        blackAttributeTitleStyles,
+        blackAttributeTextStyles,
+        headingStyles,
+        subHeadingStyles,
+        headingOneStyle,
+        headingOneContainerStyle,
+        horizontalRule,
+        abilityContainerStyles,
+        abilityTextStyles,
+        elementPadding,
+        firstLetter
+    } = styles
     return (
-        <ScrollView>
-            <Text>{name}</Text>
-            <Text>{size} {type} {alignment}</Text>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+            <Text style={headingStyles}>{name}</Text>
+            <Text style={subHeadingStyles}>{size} {type} {alignment}</Text>
+
+            <Rule />
+
             {/*Basic Info*/}
-            <Text>Armor Class {armor_class}</Text>
-            <Text>Hit Points {hit_points} {hit_dice}</Text>
-            <Text>Speed {speed}</Text>
+            <View style={elementPadding}>
+                <Text style={redAttributeTextStyles} >
+                    <Text style={redAttributeTitleStyles} >Armor Class</Text> {armor_class}
+                </Text>
+                <Text style={redAttributeTextStyles} >
+                    <Text style={redAttributeTitleStyles} >Hit Points</Text> {hit_points} {hit_dice}
+                </Text>
+                <Text style={redAttributeTextStyles} >
+                    <Text style={redAttributeTitleStyles} >Speed</Text> {speed}
+                </Text>
+            </View>
+
+
+            <Rule />
 
             {/* TODO Add Ability Stylings*/}
             {
-                abilities.map(ability => (
-                    <Text key={ability.string}>{ability.string} {ability.score} </Text>
-                ))
-            }
-
-            {
-                // test that monster has saves
-                !saves.every((save) => { isUndefined(save.mod) }) &&
-                <View>
-                    {
-                        saves.map(save => (
-                            typeof save.mod !== 'undefined' && <Text key={save.string}>{save.string} +{save.mod} </Text>
-                        ))
-                    }
+                <View style={elementPadding}>
+                    <View style={abilityContainerStyles} >
+                        {
+                            abilities.map(ability => (
+                                <Text style={abilityTextStyles} key={ability.string}>{ability.string}{"\n"} {ability.score} </Text>
+                            ))
+                        }
+                    </View>
                 </View>
             }
 
-            {
-                // test that monster has skills
-                !skills.every((skill) => { isUndefined(skill.mod) }) &&
-                <View>
-                    {
-                        skills.map(skill => (
-                            typeof skill.mod !== 'undefined' && <Text key={skill.string}>{skill.string} +{skill.mod} </Text>
-                        ))
-                    }
-                </View>
-            }
+            <Rule />
 
-            <View>
+            <View style={elementPadding}>
+
                 {
-                    // there should always be a challenge rating property so no `.every()` test is needed
-                    properties.map(property => (
-                        property.val !== "" && <Text key={property.string}>{property.string}: {property.val} </Text>
-                    ))
+                    // test that monster has saves
+                    !saves.every((save) => { isUndefined(save.mod) }) &&
+                    <View >
+                        <Text style={redAttributeTextStyles} >
+                            <Text style={redAttributeTitleStyles} >Saves </Text>
+                            {
+                                saves.map(save => (
+                                    typeof save.mod !== 'undefined' &&
+                                    <Text key={save.string} style={redAttributeTextStyles} >{save.string} +{save.mod} </Text>
+                                ))
+                            }
+                        </Text>
+                    </View>
                 }
+
+                {
+                    // test that monster has skills
+                    !skills.every((skill) => { isUndefined(skill.mod) }) &&
+                    <View >
+                        <Text style={redAttributeTextStyles} >
+                            <Text style={redAttributeTitleStyles} >Skills </Text>
+                            {
+                                skills.map(skill => (
+                                    typeof skill.mod !== 'undefined' &&
+                                    <Text key={skill.string} style={redAttributeTextStyles} >{skill.string} +{skill.mod} </Text>
+                                ))
+                            }
+                        </Text>
+                    </View>
+                }
+
+                <View>
+                    {
+                        // there should always be a challenge rating property so no `.every()` test is needed
+                        properties.map(property => (
+                            property.val !== "" &&
+                            <Text key={property.string} style={redAttributeTextStyles}>
+                                <Text style={redAttributeTitleStyles} >{property.string}</Text> {property.val}
+                            </Text>
+                        ))
+                    }
+                </View>
+
             </View>
 
             {
+                special_abilities !== "undefined" &&
                 typeof special_abilities === 'object' &&
-                special_abilities.map(ability => (
-                    <Text key={ability.name}>{ability.name}. {ability.desc}</Text>
-                ))
+                <View>
+                    <Rule />
+                    <View style={elementPadding}>
+                        {
+                            special_abilities.map((ability) => (
+                                <Text key={ability.name} style={blackAttributeTextStyles} >
+                                    <Text style={blackAttributeTitleStyles} >{ability.name}.</Text> {ability.desc}
+                                </Text>
+                            ))
+                        }
+                    </View>
+                </View>
             }
+
+            <View style={headingOneContainerStyle} >
+                <Text style={[headingOneStyle, firstLetter]} >A</Text>
+                <Text style={headingOneStyle} >ctions</Text>
+            </View>
+            <View style={horizontalRule} ></View>
 
             {
                 actions !== "undefined" &&
-                actions.map(action => (
-                    <Text key={action.name}>{action.name}. {action.desc}</Text>
-                ))
+                <View style={elementPadding}>
+                    {
+                        actions.map((action) => (
+                            <Text key={action.name} style={blackAttributeTextStyles} >
+                                <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
+                            </Text>
+                        ))
+                    }
+                </View>
             }
 
             {
+                legendary_actions !== "undefined" &&
+                <View>
+                <View style={headingOneContainerStyle} >
+                <Text style={[headingOneStyle, firstLetter]} >L</Text>
+                <Text style={headingOneStyle} >egendary Actions</Text>
+            </View>
+            <View style={horizontalRule} ></View>
+                </View>
+            }
+
+            {
+                legendary_actions !== "undefined" &&
                 typeof legendary_actions === 'object' &&
-                legendary_actions.map(action => (
-                    <Text key={action.name}>{action.name}. {action.desc}</Text>
-                ))
+                <View style={elementPadding}>
+                    {
+                        legendary_actions.map(action => (
+                            <Text key={action} style={blackAttributeTextStyles} >
+                                <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
+                            </Text>
+                        ))
+                    }
+                </View>
             }
         </ScrollView>
     )
 }
 
+const bodyTextSize = 12
+const bottomPadding = 10
+const headingOneText = 21
+let headingOneFirstLetter = headingOneText
+const styles = {
+    contentContainer: {
+        // TODO 40 works as a tempory margin, check with other devices
+        paddingBottom: 40
+    },
+    headingStyles: {
+        fontSize: 23,
+        color: primary,
+        fontFamily: (Platform.OS === 'ios') ? 'Georgia' : 'serif',
+    },
+    subHeadingStyles: {
+        fontSize: 10,
+        fontStyle: 'italic',
+        paddingBottom: bottomPadding,
+    },
+    redAttributeTitleStyles: {
+        fontWeight: 'bold',
+    },
+    redAttributeTextStyles: {
+        fontSize: bodyTextSize,
+        color: primary,
+    },
+    blackAttributeTitleStyles: {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+    },
+    blackAttributeTextStyles: {
+        fontSize: bodyTextSize,
+    },
+    headingOneContainerStyle: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        flexDirection: 'row'
+    },
+    headingOneStyle: {
+        fontSize: headingOneText,
+        letterSpacing: 1,
+        fontFamily: 'sans-serif-light',
+        color: primary
+    },
+    firstLetter: {
+        fontSize: headingOneText + 3,
+        bottom: 3,
+        paddingLeft: 5,
+    },
+    horizontalRule: {
+        width: '100%',
+        height: 1,
+        backgroundColor: 'red',
+    },
+    abilityContainerStyles: {
+        flexDirection: 'row',
+        justifyContent: "space-around",
+    },
+    abilityTextStyles: {
+        color: primary,
+        fontWeight: 'bold',
+    },
+    elementPadding: {
+        paddingVertical: 7
+    },
+}
 
 export default MonsterStats;
