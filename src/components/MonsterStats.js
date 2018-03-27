@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { isUndefined } from '../helpers'
+import { isUndefined } from '../helpers';
+import TaperedRule from './TaperedRule';
 
 const MonsterStats = ({ stat }) => {
     const {
@@ -70,12 +71,20 @@ const MonsterStats = ({ stat }) => {
     const {
         redAttributeTitleStyles,
         redAttributeTextStyles,
-        blackAttributeTitleStyles
+        blackAttributeTitleStyles,
+        blackAttributeTextStyles,
+        headingStyles,
+        subHeadingStyles,
+        heading2,
+        horizontalRule
     } = styles
     return (
-        <ScrollView>
-            <Text>{name}</Text>
-            <Text>{size} {type} {alignment}</Text>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+            <Text style={headingStyles}>{name}</Text>
+            <Text style={subHeadingStyles}>{size} {type} {alignment}</Text>
+
+            <TaperedRule />
+
             {/*Basic Info*/}
             <Text style={redAttributeTextStyles} >
                 <Text style={redAttributeTitleStyles} >Armor Class</Text> {armor_class}
@@ -87,6 +96,8 @@ const MonsterStats = ({ stat }) => {
                 <Text style={redAttributeTitleStyles} >Speed</Text> {speed}
             </Text>
 
+            <TaperedRule />
+
             {/* TODO Add Ability Stylings*/}
             {
                 abilities.map(ability => (
@@ -94,33 +105,37 @@ const MonsterStats = ({ stat }) => {
                 ))
             }
 
+            <TaperedRule />
+
             {
                 // test that monster has saves
                 !saves.every((save) => { isUndefined(save.mod) }) &&
-                <View>
-                    {
-                        saves.map(save => (
-                            typeof save.mod !== 'undefined' &&
-                            <Text key={save.string} style={redAttributeTextStyles} >
-                                <Text style={redAttributeTitleStyles} >{save.string}</Text> +{save.mod}
-                            </Text>
-                        ))
-                    }
+                <View >
+                    <Text style={redAttributeTextStyles} >
+                        <Text style={redAttributeTitleStyles} >Saves </Text>
+                        {
+                            saves.map(save => (
+                                typeof save.mod !== 'undefined' &&
+                                <Text key={save.string} style={redAttributeTextStyles} >{save.string} +{save.mod} </Text>
+                            ))
+                        }
+                    </Text>
                 </View>
             }
 
             {
                 // test that monster has skills
                 !skills.every((skill) => { isUndefined(skill.mod) }) &&
-                <View>
-                    {
-                        skills.map(skill => (
-                            typeof skill.mod !== 'undefined' &&
-                            <Text key={skill.string} style={redAttributeTextStyles} >
-                                <Text style={redAttributeTitleStyles} >{skill.string}</Text> +{skill.mod}
-                            </Text>
-                        ))
-                    }
+                <View >
+                    <Text style={redAttributeTextStyles} >
+                        <Text style={redAttributeTitleStyles} >Skills </Text>
+                        {
+                            skills.map(skill => (
+                                typeof skill.mod !== 'undefined' &&
+                                    <Text key={skill.string} style={redAttributeTextStyles} >{skill.string} +{skill.mod } </Text>
+                            ))
+                        }
+                    </Text>
                 </View>
             }
 
@@ -137,45 +152,94 @@ const MonsterStats = ({ stat }) => {
             </View>
 
             {
+                special_abilities !== "undefined" &&
                 typeof special_abilities === 'object' &&
-                special_abilities.map(ability => (
-                    <Text key={ability.name}>{ability.name}. {ability.desc}</Text>
-                ))
+                <View>
+                    <TaperedRule />
+                    {
+                        special_abilities.map((ability) => (
+                            <Text key={ability.name} style={blackAttributeTextStyles} >
+                                <Text style={blackAttributeTitleStyles} >{ability.name}.</Text> {ability.desc}
+                            </Text>
+                        ))
+                    }
+                </View>
             }
+
+            <Text style={heading2} >Actions</Text>
+            <View style={horizontalRule} ></View>
 
             {
                 actions !== "undefined" &&
-                actions.map(action => (
-                    <Text key={action.name}>
-                        <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
-                    </Text>
-                ))
+                <View>
+                    {
+                        actions.map((action) => (
+                            <Text key={action.name} style={blackAttributeTextStyles} >
+                                <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
+                            </Text>
+                        ))
+                    }
+                </View>
             }
 
             {
+                legendary_actions !== "undefined" &&
+                <View>
+                    <Text style={heading2} >Legendary Actions</Text>
+                    <View style={horizontalRule} ></View>
+                </View>
+            }
+
+            {
+                legendary_actions !== "undefined" &&
                 typeof legendary_actions === 'object' &&
                 legendary_actions.map(action => (
-                    <Text key={action.name}><Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}</Text>
+                    <Text key={action} style={blackAttributeTextStyles} >
+                        <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
+                    </Text>
                 ))
             }
         </ScrollView>
     )
 }
 
-let primary = "#7A200D"
+const primary = "#922610"
+const bodyTextSize = 12
 const styles = {
+    contentContainer: {
+        // TODO 40 works as a tempory margin, check with other devices
+        paddingBottom: 40
+    },
+    headingStyles: {
+        fontSize: 23,
+        color: primary,
+    },
+    subHeadingStyles: {
+        fontSize: 10,
+        fontStyle: 'italic',
+    },
     redAttributeTitleStyles: {
         fontWeight: 'bold',
     },
     redAttributeTextStyles: {
-        color: primary
+        fontSize: bodyTextSize,
+        color: primary,
     },
     blackAttributeTitleStyles: {
         fontWeight: 'bold',
         fontStyle: 'italic',
     },
     blackAttributeTextStyles: {
-
+        fontSize: bodyTextSize,
+    },
+    headingOneStyle: {
+        fontSize: 21,
+        textIndent: 5
+    },
+    horizontalRule: {
+        width: '100%',
+        height: 1,
+        backgroundColor: primary,
     }
 }
 
