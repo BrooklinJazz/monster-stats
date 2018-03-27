@@ -28,13 +28,13 @@ const MonsterStats = ({ stat }) => {
     ]
     const properties = [
         // check if property is empty string
-        { property: stat.damage_vulnerabilities, string: 'Damage Vulnerabilites' },
-        { property: stat.damage_resistances, string: 'Damage Resistances' },
-        { property: stat.damage_immunities, string: 'Damage Immunities' },
-        { property: stat.condition_immunities, string: 'Condition Immunities' },
-        { property: stat.senses, string: 'Senses' },
-        { property: stat.languages, string: 'Languages' },
-        { property: stat.challenge_rating, string: 'Challenge Rating' },
+        { val: stat.damage_vulnerabilities, string: 'Damage Vulnerabilites' },
+        { val: stat.damage_resistances, string: 'Damage Resistances' },
+        { val: stat.damage_immunities, string: 'Damage Immunities' },
+        { val: stat.condition_immunities, string: 'Condition Immunities' },
+        { val: stat.senses, string: 'Senses' },
+        { val: stat.languages, string: 'Languages' },
+        { val: stat.challenge_rating, string: 'Challenge Rating' },
     ]
     const saves = [
         // check if mod is undefined
@@ -82,16 +82,35 @@ const MonsterStats = ({ stat }) => {
                 ))
             }
             {
+                // test that monster has saves
+                !saves.every((save) => { isUndefined(save.mod) }) &&
+                <View>
+                    {
+                        saves.map(save => (
+                            typeof save.mod !== 'undefined' && <Text key={save.string}>{save.string} +{save.mod} </Text>
+                        ))
+                    }
+                </View>
+            }
+            {
                 // test that monster has skills
                 !skills.every((skill) => { isUndefined(skill.mod) }) &&
+                <View>
                     {
                         skills.map(skill => (
                             typeof skill.mod !== 'undefined' && <Text key={skill.string}>{skill.string} +{skill.mod} </Text>
                         ))
                     }
+                </View>
             }
-            <Text><Text>a</Text></Text>
-            <Text><Text>a</Text></Text>
+                <View>
+                    {
+                        // there should always be a challenge rating property so no `.every()` test is needed
+                        properties.map(property => (
+                            property.val !== "" && <Text key={property.string}>{property.string}: {property.val} </Text>
+                        ))
+                    }
+                </View>
         </View>
     )
 }
