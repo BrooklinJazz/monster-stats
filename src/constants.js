@@ -1,3 +1,1 @@
-export const Colors = {
-    primary:"#922610",
-}
+export const primary = "#922610"

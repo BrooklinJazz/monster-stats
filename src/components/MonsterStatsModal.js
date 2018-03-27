@@ -6,8 +6,8 @@ import * as actions from "../actions/index";
 import MonsterStats from './MonsterStats';
 
 // styling
-import Colors, { primary } from '../constants'
 import { Ionicons } from '@expo/vector-icons';
+import {primary} from '../constants'
 
 class MonsterStatsModal extends Component {
     render() {
@@ -45,7 +45,7 @@ class MonsterStatsModal extends Component {
                                     <Ionicons
                                         name="md-close"
                                         size={50}
-                                        color="black"
+                                        style={exitButton}
                                         onPress={() => this.props.setMonsterModalVisibility(false)} />
                                 </View>
                             </View>
