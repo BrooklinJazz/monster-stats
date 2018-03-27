@@ -7,6 +7,7 @@ import MonsterStats from './MonsterStats';
 
 // styling
 import Colors, { primary } from '../constants'
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 class MonsterStatsModal extends Component {
     render() {
@@ -35,7 +36,9 @@ class MonsterStatsModal extends Component {
                                     <TouchableHighlight
                                         onPress={() => this.props.setMonsterModalVisibility(false)}
                                     >
-                                        <Text>Close Button</Text>
+                                        <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>
+                                            <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+                                        </Text>
                                     </TouchableHighlight>
                                 </View>
                                 <MonsterStats stat={stat} />
