@@ -15,8 +15,8 @@ const MonsterStats = ({ stat }) => {
         speed,
         // Arrays of Objects
         special_abilities,
+        legendary_actions,
         actions,
-        legendary_actions
     } = stat
     const abilities = [
         { score: stat.strength, string: 'STR' },
@@ -75,12 +75,14 @@ const MonsterStats = ({ stat }) => {
             <Text>Armor Class {armor_class}</Text>
             <Text>Hit Points {hit_points} {hit_dice}</Text>
             <Text>Speed {speed}</Text>
+
             {/* TODO Add Ability Stylings*/}
             {
                 abilities.map(ability => (
                     <Text key={ability.string}>{ability.string} {ability.score} </Text>
                 ))
             }
+
             {
                 // test that monster has saves
                 !saves.every((save) => { isUndefined(save.mod) }) &&
@@ -92,6 +94,7 @@ const MonsterStats = ({ stat }) => {
                     }
                 </View>
             }
+
             {
                 // test that monster has skills
                 !skills.every((skill) => { isUndefined(skill.mod) }) &&
@@ -103,14 +106,36 @@ const MonsterStats = ({ stat }) => {
                     }
                 </View>
             }
-                <View>
-                    {
-                        // there should always be a challenge rating property so no `.every()` test is needed
-                        properties.map(property => (
-                            property.val !== "" && <Text key={property.string}>{property.string}: {property.val} </Text>
-                        ))
-                    }
-                </View>
+
+            <View>
+                {
+                    // there should always be a challenge rating property so no `.every()` test is needed
+                    properties.map(property => (
+                        property.val !== "" && <Text key={property.string}>{property.string}: {property.val} </Text>
+                    ))
+                }
+            </View>
+
+            {
+                special_abilities.length !== 0 &&
+                special_abilities.map(ability => (
+                    <Text key={ability.name}>{ability.name}. {ability.desc}</Text>
+                ))
+            }
+
+            {
+                actions.length !== 0 &&
+                actions.map(action => (
+                    <Text key={action.name}>{action.name}. {action.desc}</Text>
+                ))
+            }
+
+            {
+                legendary_actions.length !== 0 &&
+                legendary_actions.map(action => (
+                    <Text key={action.name}>{action.name}. {action.desc}</Text>
+                ))
+            }
         </View>
     )
 }

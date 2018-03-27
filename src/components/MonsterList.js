@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
 import * as actions from "../actions/index";
-import { Text, View } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import MonsterListing from './MonsterListing'
 
 class MonsterList extends Component {
 
     componentWillMount() {
-        axios.get('http://dnd5eapi.co/api/monsters/')
-            .then(response => this.props.getMonsters(response.data.results))
+        if (!this.props.monsters.length) {
+            axios.get('http://dnd5eapi.co/api/monsters/')
+                .then(response => this.props.getMonsters(response.data.results))
+        }
     }
 
     renderMonsterListings() {
@@ -23,12 +25,16 @@ class MonsterList extends Component {
         const { monsters = [] } = this.props
         return (
             <View>
-                {
+            {
                 monsters.length >= 1 ?
-                this.renderMonsterListings()
-                :
-                <Text>Loading</Text>
-                }
+                    <FlatList
+                        data={monsters}
+                        renderItem={({item}) => <MonsterListing key={item.name} monster={item} />}
+                        keyExtractor={(item, index) => index}
+                    />
+                    :
+                    <Text>Loading</Text>
+            }
             </View>
         )
     }
