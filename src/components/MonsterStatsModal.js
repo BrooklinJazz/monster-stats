@@ -24,13 +24,13 @@ class MonsterStatsModal extends Component {
                                 :
                                 // Render When stat object has values in it.
                                 <View>
+                                <TouchableHighlight
+                                    onPress={() => this.props.setMonsterModalVisibility(false)}
+                                >
+                                    <Text>Close Button</Text>
+                                </TouchableHighlight>
                                 <MonsterStats stat={stat} />
                                 </View>
-                                // <TouchableHighlight
-                                //     onPress={() => this.props.setMonsterModalVisibility(false)}
-                                // >
-                                //     <Text>Close Button</Text>
-                                // </TouchableHighlight>
                 }
                     </View>
             </Modal>
