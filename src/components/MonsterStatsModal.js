@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Text, View, TouchableHighlight } from 'react-native';
+import { Modal, Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import { connect } from "react-redux";
 import * as actions from "../actions/index";
 
@@ -7,7 +7,7 @@ import MonsterStats from './MonsterStats';
 
 // styling
 import Colors, { primary } from '../constants'
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import { Ionicons } from '@expo/vector-icons';
 
 class MonsterStatsModal extends Component {
     render() {
@@ -32,16 +32,22 @@ class MonsterStatsModal extends Component {
                             :
                             // Render When stat object has values in it.
                             <View>
-                                <View style={exitButtonContainer}>
-                                    <TouchableHighlight
-                                        onPress={() => this.props.setMonsterModalVisibility(false)}
-                                    >
-                                        <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>
-                                            <FontAwesome>{Icons.chevronLeft}</FontAwesome>
-                                        </Text>
-                                    </TouchableHighlight>
-                                </View>
+                            {/* 
+                                must place Ionicons Below ScrollView for the onPress function to occur
+                                position absolute will place Ionicons at the top of the page
+                            */}
+                            <ScrollView>
                                 <MonsterStats stat={stat} />
+                            </ScrollView>
+                                <View
+                                    style={exitButtonContainer}
+                                >
+                                    <Ionicons
+                                        name="md-close"
+                                        size={50}
+                                        color="black"
+                                        onPress={() => this.props.setMonsterModalVisibility(false)} />
+                                </View>
                             </View>
                     }
                 </View>
@@ -55,7 +61,9 @@ const styles = {
         color: primary
     },
     exitButtonContainer: {
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        alignSelf: 'flex-end',
     }
 }
 
