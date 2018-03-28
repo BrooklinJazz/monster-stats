@@ -203,6 +203,7 @@ const MonsterStats = ({ stat }) => {
 
             {
                 legendary_actions !== "undefined" &&
+                typeof legendary_actions === 'object' &&
                 <View>
                 <View style={headingOneContainerStyle} >
                 <Text style={[headingOneStyle, firstLetter]} >L</Text>
@@ -235,7 +236,7 @@ let headingOneFirstLetter = headingOneText
 const styles = {
     contentContainer: {
         // TODO 40 works as a tempory margin, check with other devices
-        paddingBottom: 40
+        // marginBottom: 40,
     },
     headingStyles: {
         fontSize: 23,

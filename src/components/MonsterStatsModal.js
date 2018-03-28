@@ -7,14 +7,15 @@ import MonsterStats from './MonsterStats';
 
 // styling
 import { Ionicons } from '@expo/vector-icons';
-import {primary} from '../constants'
+import {primary, mainBackgroundColor} from '../constants'
 
 class MonsterStatsModal extends Component {
     render() {
         const { monsterStatsModalVisible: visible, activeMonsterModal: stat } = this.props
         const {
             exitButton,
-            exitButtonContainer
+            exitButtonContainer,
+            modalContainerStyles
         } = styles
         return (
             <Modal
@@ -24,7 +25,7 @@ class MonsterStatsModal extends Component {
                 onRequestClose={() => {
 
                 }}>
-                <View>
+                <View style={modalContainerStyles} >
                     {
                         Object.keys(stat).length === 0 && stat.constructor === Object ?
                             // Handle Loading while fetching the monster stats
@@ -36,7 +37,7 @@ class MonsterStatsModal extends Component {
                                 must place Ionicons Below ScrollView for the onPress function to occur
                                 position absolute will place Ionicons at the top of the page
                             */}
-                            <ScrollView>
+                            <ScrollView >
                                 <MonsterStats stat={stat} />
                             </ScrollView>
                                 <View
@@ -64,6 +65,9 @@ const styles = {
         backgroundColor: 'transparent',
         position: 'absolute',
         alignSelf: 'flex-end',
+    },
+    modalContainerStyles: {
+        backgroundColor: mainBackgroundColor
     }
 }
 

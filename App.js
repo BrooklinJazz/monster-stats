@@ -7,9 +7,9 @@ import reducers from './src/reducers';
 import MonsterList from './src/components/MonsterList';
 import MonsterStatsModal from './src/components/MonsterStatsModal';
 
-
 export default class App extends React.Component {
   render() {
+    const {modalContainerStyles} = styles
     return (
       <Provider store={createStore(reducers)} >
         <View style={styles.container}>
@@ -24,7 +24,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
+    backgroundColor: '#FCF0DB',
     // alignItems: 'center',
     // justifyContent: 'center',
   },

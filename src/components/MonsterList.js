@@ -40,7 +40,7 @@ class MonsterList extends Component {
 
     render() {
         const { monsters = [] } = this.props
-        const { displayedMonsters } = this.state
+        const { search, displayedMonsters } = this.state
         return (
             <View>
                 <TextInput
@@ -54,13 +54,14 @@ class MonsterList extends Component {
                             ref='_FlatList'
                             data={
                                 // handle case where the search is empty
-                                displayedMonsters.length === 0 ? monsters : displayedMonsters
+                                search.length === 0 ? monsters : displayedMonsters
                             }
-                            renderItem={({ item }) =>
+                            renderItem={({ item, index }) =>
                                 <MonsterListing
                                     onPress={() => this.getMonsterStatsForMonsterModal(item.url)}
                                     key={item.name}
-                                    monster={item} />
+                                    monster={item}
+                                    index={index} />
                             }
                             keyExtractor={(item, index) => index}
                         />
