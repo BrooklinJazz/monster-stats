@@ -40,13 +40,14 @@ class MonsterList extends Component {
 
     render() {
         const { monsters = [] } = this.props
-        const { displayedMonsters } = this.state
+        const { search, displayedMonsters } = this.state
         return (
             <View>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={{ height: 40, paddingLeft: 10, borderColor: 'gray', borderWidth: 1 }}
                     onChangeText={(search) => this._handleInputChange(search)}
                     value={this.state.search}
+                    placeholder='i.e. "Dragon"'
                 />
                 {
                     monsters.length >= 1 ?
@@ -54,13 +55,14 @@ class MonsterList extends Component {
                             ref='_FlatList'
                             data={
                                 // handle case where the search is empty
-                                displayedMonsters.length === 0 ? monsters : displayedMonsters
+                                search.length === 0 ? monsters : displayedMonsters
                             }
-                            renderItem={({ item }) =>
+                            renderItem={({ item, index }) =>
                                 <MonsterListing
                                     onPress={() => this.getMonsterStatsForMonsterModal(item.url)}
                                     key={item.name}
-                                    monster={item} />
+                                    monster={item}
+                                    index={index} />
                             }
                             keyExtractor={(item, index) => index}
                         />

@@ -5,3 +5,7 @@ export const convAbilityScoreToMod = (score) => {
 export const isUndefined = (value) => {
     return value === 'undefined'
 }
+
+export const checkIndexIsEven = (n) => {
+    return n % 2 == 0;
+}
