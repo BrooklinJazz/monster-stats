@@ -44,9 +44,10 @@ class MonsterList extends Component {
         return (
             <View>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={{ height: 40, paddingLeft: 10, borderColor: 'gray', borderWidth: 1 }}
                     onChangeText={(search) => this._handleInputChange(search)}
                     value={this.state.search}
+                    placeholder='i.e. "Dragon"'
                 />
                 {
                     monsters.length >= 1 ?
