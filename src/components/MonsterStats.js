@@ -3,8 +3,11 @@ import { Text, View, ScrollView, Platform } from 'react-native';
 import { isUndefined } from '../helpers';
 import Rule from './Rule';
 
+import RedAttributeText from './RedAttributeText'
+import BlackAttributeText from './BlackAttributeText'
+
 // styling
-import { primary } from '../constants'
+import { primary, bodyTextSize } from '../constants'
 
 const MonsterStats = ({ stat }) => {
     const {
@@ -95,15 +98,10 @@ const MonsterStats = ({ stat }) => {
 
             {/*Basic Info*/}
             <View style={elementPadding}>
-                <Text style={redAttributeTextStyles} >
-                    <Text style={redAttributeTitleStyles} >Armor Class</Text> {armor_class}
-                </Text>
-                <Text style={redAttributeTextStyles} >
-                    <Text style={redAttributeTitleStyles} >Hit Points</Text> {hit_points} {hit_dice}
-                </Text>
-                <Text style={redAttributeTextStyles} >
-                    <Text style={redAttributeTitleStyles} >Speed</Text> {speed}
-                </Text>
+                <RedAttributeText title="Armor Class" text={armor_class} ></RedAttributeText>
+
+                <RedAttributeText title="Hit Points" text={[hit_points, hit_dice].join(' ')} ></RedAttributeText>
+                <RedAttributeText title="Speed" text={speed} ></RedAttributeText>
             </View>
 
 
@@ -135,7 +133,7 @@ const MonsterStats = ({ stat }) => {
                             {
                                 saves.map(save => (
                                     typeof save.mod !== 'undefined' &&
-                                    <Text key={save.string} style={redAttributeTextStyles} >{save.string} +{save.mod} </Text>
+                                    <Text key={save.string} >{save.string} +{save.mod} </Text>
                                 ))
                             }
                         </Text>
@@ -163,9 +161,8 @@ const MonsterStats = ({ stat }) => {
                         // there should always be a challenge rating property so no `.every()` test is needed
                         properties.map(property => (
                             property.val !== "" &&
-                            <Text key={property.string} style={redAttributeTextStyles}>
-                                <Text style={redAttributeTitleStyles} >{property.string}</Text> {property.val}
-                            </Text>
+                            <RedAttributeText key={property.string} title={property.string} text={property.val} ></RedAttributeText>
+
                         ))
                     }
                 </View>
@@ -180,9 +177,7 @@ const MonsterStats = ({ stat }) => {
                     <View style={elementPadding}>
                         {
                             special_abilities.map((ability) => (
-                                <Text key={ability.name} style={blackAttributeTextStyles} >
-                                    <Text style={blackAttributeTitleStyles} >{ability.name}.</Text> {ability.desc}
-                                </Text>
+                                <BlackAttributeText key={ability.name} title={ability.name} text={ability.desc} ></BlackAttributeText>
                             ))
                         }
                     </View>
@@ -200,9 +195,7 @@ const MonsterStats = ({ stat }) => {
                 <View style={elementPadding}>
                     {
                         actions.map((action) => (
-                            <Text key={action.name} style={blackAttributeTextStyles} >
-                                <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
-                            </Text>
+                            <BlackAttributeText key={action.name} title={action.name} text={action.desc} ></BlackAttributeText>
                         ))
                     }
                 </View>
@@ -225,9 +218,7 @@ const MonsterStats = ({ stat }) => {
                 <View style={elementPadding}>
                     {
                         legendary_actions.map(action => (
-                            <Text key={action} style={blackAttributeTextStyles} >
-                                <Text style={blackAttributeTitleStyles}>{action.name}.</Text> {action.desc}
-                            </Text>
+                            <BlackAttributeText key={action.name} title={action.name} text={action.desc} ></BlackAttributeText>
                         ))
                     }
                 </View>
@@ -237,7 +228,7 @@ const MonsterStats = ({ stat }) => {
 }
 
 
-const bodyTextSize = 12
+
 const bottomPadding = 10
 const headingOneText = 21
 let headingOneFirstLetter = headingOneText
