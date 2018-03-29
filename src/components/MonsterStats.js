@@ -234,7 +234,6 @@ let headingOneFirstLetter = headingOneText
 const styles = {
     contentContainer: {
         // TODO 40 works as a tempory margin, check with other devices
-        marginBottom: 40,
     },
     headingStyles: {
         fontSize: 23,
