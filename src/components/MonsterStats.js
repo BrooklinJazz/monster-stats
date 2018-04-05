@@ -89,6 +89,8 @@ const MonsterStats = ({ stat }) => {
         elementPadding,
         firstLetter
     } = styles
+    console.log(saves.every((save) => { isUndefined(save.mod) }))
+
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <Text style={headingStyles}>{name}</Text>
@@ -126,13 +128,15 @@ const MonsterStats = ({ stat }) => {
 
                 {
                     // test that monster has saves
-                    !saves.every((save) => { isUndefined(save.mod) }) &&
+                    saves.every((save) => { save.mod !== 'undefined' }) &&
                     <View >
                         <Text style={redAttributeTextStyles} >
                             <Text style={redAttributeTitleStyles} >Saves </Text>
                             {
+
                                 saves.map(save => (
-                                    typeof save.mod !== 'undefined' &&
+                                    console.log(save.mod),
+                                    // typeof save.mod === 'number' &&
                                     <Text key={save.string} >{save.string} +{save.mod} </Text>
                                 ))
                             }
@@ -142,7 +146,7 @@ const MonsterStats = ({ stat }) => {
 
                 {
                     // test that monster has skills
-                    !skills.every((skill) => { isUndefined(skill.mod) }) &&
+                    skills.every((skill) => { skill.mod !== 'undefined' }) &&
                     <View >
                         <Text style={redAttributeTextStyles} >
                             <Text style={redAttributeTitleStyles} >Skills </Text>
