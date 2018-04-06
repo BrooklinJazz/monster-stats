@@ -8,8 +8,6 @@ export const isUndefined = (value) => {
 
 export const checkIndexIsEven = (n) => {
     return n % 2 == 0;
-<<<<<<< HEAD
-=======
 }
 
 var gcd = function(a, b) {
@@ -20,5 +18,4 @@ var gcd = function(a, b) {
 
 export const convDecToFra = (dec) => {
     
->>>>>>> featureDebugging
 }
