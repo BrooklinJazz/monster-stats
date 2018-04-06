@@ -34,7 +34,7 @@ class MonsterList extends Component {
         this.refs._FlatList.scrollToOffset({ x: 0, y: 0, animated: true })
         this.setState({ search })
         const displayedMonsters = this.props.monsters.filter(monster => (
-            monster.name.toLowerCase().includes(search)
+            monster.name.toLowerCase().includes(search.toLowerCase())
         ))
         this.setState({ displayedMonsters: displayedMonsters })
     }
