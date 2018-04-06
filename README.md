@@ -19,3 +19,9 @@ then open using your prefered android or ios simulator.
 4. D&D Api http://www.dnd5eapi.co/
 5. fraction.js https://www.npmjs.com/package/fraction.js
 6. react-native-loading-spinner-overlay https://www.npmjs.com/package/react-native-loading-spinner-overlay
+
+## Examples:
+### Home Page
+![Sorry, there seems to be an issue locating this image.](assets/main.png "Home Page")
+### Monster Stat Block
+![Sorry, there seems to be an issue locating this image.](assets/statblock.png "Home Page")

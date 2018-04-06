@@ -90,7 +90,6 @@ const MonsterStats = ({ stat }) => {
         elementPadding,
         firstLetter
     } = styles
-    console.log(saves.every((save) => { isUndefined(save.mod) }))
 
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -136,7 +135,6 @@ const MonsterStats = ({ stat }) => {
                             {
 
                                 saves.map(save => (
-                                    console.log(save.mod),
                                     // typeof save.mod === 'number' &&
                                     <Text key={save.string} >{save.string} +{save.mod} </Text>
                                 ))
