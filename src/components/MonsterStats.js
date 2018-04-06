@@ -166,8 +166,6 @@ const MonsterStats = ({ stat }) => {
                         // there should always be a challenge rating property so no `.every()` test is needed
                         properties.map(property => {
                             if (property.val !== "undefined" && property.val !== "") {
-                                console.log(property.val, property.string);
-                                
                                 // handle Challenge Rating
                                 if (typeof property.val === 'number') {
                                     const propertyFraction = new Fraction(property.val).toFraction(true)

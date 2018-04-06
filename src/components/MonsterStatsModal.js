@@ -67,7 +67,8 @@ const styles = {
         alignSelf: 'flex-end',
     },
     modalContainerStyles: {
-        backgroundColor: mainBackgroundColor
+        backgroundColor: mainBackgroundColor,
+        minHeight: '100%'
     }
 }
 
