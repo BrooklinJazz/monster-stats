@@ -103,7 +103,7 @@ const MonsterStats = ({ stat }) => {
             <View style={elementPadding}>
                 <RedAttributeText title="Armor Class" text={armor_class} ></RedAttributeText>
 
-                <RedAttributeText title="Hit Points" text={[hit_points, hit_dice].join(' ')} ></RedAttributeText>
+                <RedAttributeText title="Hit Points" text={[hit_points, `(${hit_dice})`].join(' ')} ></RedAttributeText>
                 <RedAttributeText title="Speed" text={speed} ></RedAttributeText>
             </View>
 
