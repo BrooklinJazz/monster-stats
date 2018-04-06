@@ -33,7 +33,7 @@ class MonsterStatsModal extends Component {
                             :
                             // Render When stat object has values in it.
                             <View>
-                            {/* 
+                            {/*
                                 must place Ionicons Below ScrollView for the onPress function to occur
                                 position absolute will place Ionicons at the top of the page
                             */}
