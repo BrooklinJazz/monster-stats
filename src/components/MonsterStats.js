@@ -5,6 +5,10 @@ import Rule from './Rule';
 
 import RedAttributeText from './RedAttributeText'
 import BlackAttributeText from './BlackAttributeText'
+<<<<<<< HEAD
+=======
+const Fraction = require('fraction.js');
+>>>>>>> featureDebugging
 
 // styling
 import { primary, bodyTextSize } from '../constants'
@@ -89,6 +93,11 @@ const MonsterStats = ({ stat }) => {
         elementPadding,
         firstLetter
     } = styles
+<<<<<<< HEAD
+=======
+    console.log(saves.every((save) => { isUndefined(save.mod) }))
+
+>>>>>>> featureDebugging
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <Text style={headingStyles}>{name}</Text>
@@ -126,13 +135,24 @@ const MonsterStats = ({ stat }) => {
 
                 {
                     // test that monster has saves
+<<<<<<< HEAD
                     !saves.every((save) => { isUndefined(save.mod) }) &&
+=======
+                    saves.every((save) => { save.mod !== 'undefined' }) &&
+>>>>>>> featureDebugging
                     <View >
                         <Text style={redAttributeTextStyles} >
                             <Text style={redAttributeTitleStyles} >Saves </Text>
                             {
+<<<<<<< HEAD
                                 saves.map(save => (
                                     typeof save.mod !== 'undefined' &&
+=======
+
+                                saves.map(save => (
+                                    console.log(save.mod),
+                                    // typeof save.mod === 'number' &&
+>>>>>>> featureDebugging
                                     <Text key={save.string} >{save.string} +{save.mod} </Text>
                                 ))
                             }
@@ -142,7 +162,11 @@ const MonsterStats = ({ stat }) => {
 
                 {
                     // test that monster has skills
+<<<<<<< HEAD
                     !skills.every((skill) => { isUndefined(skill.mod) }) &&
+=======
+                    skills.every((skill) => { skill.mod !== 'undefined' }) &&
+>>>>>>> featureDebugging
                     <View >
                         <Text style={redAttributeTextStyles} >
                             <Text style={redAttributeTitleStyles} >Skills </Text>
@@ -159,6 +183,7 @@ const MonsterStats = ({ stat }) => {
                 <View>
                     {
                         // there should always be a challenge rating property so no `.every()` test is needed
+<<<<<<< HEAD
                         properties.map(property => (
                             property.val !== "" &&
                             <RedAttributeText key={property.string} title={property.string} text={property.val} ></RedAttributeText>
@@ -169,6 +194,22 @@ const MonsterStats = ({ stat }) => {
 
             </View>
 
+=======
+                        properties.map(property => {
+                            if (property.val !== "undefined" && property.val !== "") {
+                                // handle Challenge Rating
+                                if (typeof property.val === 'number') {
+                                    const propertyFraction = new Fraction(property.val).toFraction(true)
+                                    return <RedAttributeText key={property.string} title={property.string} text={propertyFraction} ></RedAttributeText>
+                                }
+                                // other properties
+                                return <RedAttributeText key={property.string} title={property.string} text={property.val < 1 ? property.val : property.val} ></RedAttributeText>
+                            }
+                        })
+                    }
+                </View>
+            </View>
+>>>>>>> featureDebugging
             {
                 special_abilities !== "undefined" &&
                 typeof special_abilities === 'object' &&
@@ -205,11 +246,19 @@ const MonsterStats = ({ stat }) => {
                 legendary_actions !== "undefined" &&
                 typeof legendary_actions === 'object' &&
                 <View>
+<<<<<<< HEAD
                 <View style={headingOneContainerStyle} >
                 <Text style={[headingOneStyle, firstLetter]} >L</Text>
                 <Text style={headingOneStyle} >egendary Actions</Text>
             </View>
             <View style={horizontalRule} ></View>
+=======
+                    <View style={headingOneContainerStyle} >
+                        <Text style={[headingOneStyle, firstLetter]} >L</Text>
+                        <Text style={headingOneStyle} >egendary Actions</Text>
+                    </View>
+                    <View style={horizontalRule} ></View>
+>>>>>>> featureDebugging
                 </View>
             }
 
@@ -228,12 +277,21 @@ const MonsterStats = ({ stat }) => {
     )
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> featureDebugging
 const bottomPadding = 10
 const headingOneText = 21
 let headingOneFirstLetter = headingOneText
 const styles = {
     contentContainer: {
         // TODO 40 works as a tempory margin, check with other devices
+<<<<<<< HEAD
+=======
+        // marginBottom: 40,
+>>>>>>> featureDebugging
     },
     headingStyles: {
         fontSize: 23,
@@ -293,4 +351,8 @@ const styles = {
     },
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> featureDebugging
 export default MonsterStats;
