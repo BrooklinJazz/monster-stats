@@ -5,6 +5,7 @@ import Rule from './Rule';
 
 import RedAttributeText from './RedAttributeText'
 import BlackAttributeText from './BlackAttributeText'
+const Fraction = require('fraction.js');
 
 // styling
 import { primary, bodyTextSize } from '../constants'
@@ -163,11 +164,17 @@ const MonsterStats = ({ stat }) => {
                 <View>
                     {
                         // there should always be a challenge rating property so no `.every()` test is needed
-                        properties.map(property => (
-                            property.val !== "" &&
-                            <RedAttributeText key={property.string} title={property.string} text={property.val} ></RedAttributeText>
-
-                        ))
+                        properties.map(property => {
+                            if (property.val !== "undefined") {
+                                // handle Challenge Rating
+                                if (typeof property.val === 'number') {
+                                    const propertyFraction = new Fraction(property.val).toFraction(true)
+                                    return <RedAttributeText key={property.string} title={property.string} text={propertyFraction} ></RedAttributeText>
+                                }
+                                // other properties
+                                return <RedAttributeText key={property.string} title={property.string} text={property.val < 1 ? property.val : property.val} ></RedAttributeText>
+                            }
+                        })
                     }
                 </View>
 
@@ -209,11 +216,11 @@ const MonsterStats = ({ stat }) => {
                 legendary_actions !== "undefined" &&
                 typeof legendary_actions === 'object' &&
                 <View>
-                <View style={headingOneContainerStyle} >
-                <Text style={[headingOneStyle, firstLetter]} >L</Text>
-                <Text style={headingOneStyle} >egendary Actions</Text>
-            </View>
-            <View style={horizontalRule} ></View>
+                    <View style={headingOneContainerStyle} >
+                        <Text style={[headingOneStyle, firstLetter]} >L</Text>
+                        <Text style={headingOneStyle} >egendary Actions</Text>
+                    </View>
+                    <View style={horizontalRule} ></View>
                 </View>
             }
 

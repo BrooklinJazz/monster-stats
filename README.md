@@ -15,3 +15,4 @@ then open using your prefered android or ios simulator.
 ## Tech
 1. React-Native
 2. D&D Api http://www.dnd5eapi.co/
+3. fraction.js https://www.npmjs.com/package/fraction.js
