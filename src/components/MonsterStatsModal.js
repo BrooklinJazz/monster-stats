@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import * as actions from "../actions/index";
 
 import MonsterStats from './MonsterStats';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // styling
 import { Ionicons } from '@expo/vector-icons';
-import {primary, mainBackgroundColor} from '../constants'
+import { primary, mainBackgroundColor } from '../constants'
 
 class MonsterStatsModal extends Component {
     render() {
@@ -29,17 +30,19 @@ class MonsterStatsModal extends Component {
                     {
                         Object.keys(stat).length === 0 && stat.constructor === Object ?
                             // Handle Loading while fetching the monster stats
-                            <Text>Loading Monster Stats</Text>
+                            <View style={{ flex: 1 }}>
+                                <Spinner visible={true} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+                            </View>
                             :
                             // Render When stat object has values in it.
                             <View>
-                            {/*
+                                {/*
                                 must place Ionicons Below ScrollView for the onPress function to occur
                                 position absolute will place Ionicons at the top of the page
                             */}
-                            <ScrollView >
-                                <MonsterStats stat={stat} />
-                            </ScrollView>
+                                <ScrollView >
+                                    <MonsterStats stat={stat} />
+                                </ScrollView>
                                 <View
                                     style={exitButtonContainer}
                                 >

@@ -4,14 +4,15 @@ import axios from 'axios';
 import * as actions from "../actions/index";
 import { Text, View, FlatList, TextInput } from 'react-native';
 import MonsterListing from './MonsterListing'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class MonsterList extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             search: "",
             displayedMonsters: []
-         }
+        }
     }
 
     componentWillMount() {
@@ -30,12 +31,12 @@ class MonsterList extends Component {
     }
 
     _handleInputChange(search) {
-        this.refs._FlatList.scrollToOffset({x: 0, y: 0, animated: true})
-        this.setState({search})
-        const displayedMonsters = this.props.monsters.filter( monster => (
-            monster.name.includes(search)
+        this.refs._FlatList.scrollToOffset({ x: 0, y: 0, animated: true })
+        this.setState({ search })
+        const displayedMonsters = this.props.monsters.filter(monster => (
+            monster.name.toLowerCase().includes(search)
         ))
-        this.setState({displayedMonsters: displayedMonsters})
+        this.setState({ displayedMonsters: displayedMonsters })
     }
 
     render() {
@@ -67,7 +68,9 @@ class MonsterList extends Component {
                             keyExtractor={(item, index) => index}
                         />
                         :
-                        <Text>Loading</Text>
+                        <View style={{ flex: 1 }}>
+                            <Spinner visible={true} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
+                        </View>
                 }
             </View>
         )
